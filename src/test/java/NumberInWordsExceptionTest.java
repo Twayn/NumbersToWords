@@ -1,5 +1,8 @@
 import org.junit.Test;
 
+import numbersinwords.INumberInWords;
+import numbersinwords.NumberInWords;
+
 public class NumberInWordsExceptionTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void NumberInWordsNumberTooSmallException(){

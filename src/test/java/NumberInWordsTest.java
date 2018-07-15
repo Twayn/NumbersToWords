@@ -1,32 +1,33 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
+import numbersinwords.INumberInWords;
+import numbersinwords.NumberInWords;
+
 public class NumberInWordsTest {
-	@Test
-	public void oneThousandAndOneMasculineNominativeTest(){
-		NumberInWords numberInWords = new NumberInWords();
-		String oneThousandAndOne = numberInWords.sumProp(1001L, INumberInWords.MASCULINE, INumberInWords.NOMINATIVE);
-		Assert.assertEquals("одна тысяча один", oneThousandAndOne);
-	}
+
+	private Map<Long, String> normativeMasculineNumberValues = new LinkedHashMap<Long, String>(){{
+		put(6L, "шесть");
+		put(12L, "двенадцать");
+		put(217L, "двести семнадцать");
+		put(1001L, "одна тысяча один");
+		put(66300L, "шестьдесят шесть тысяч триста");
+		put(3165334L, "три миллиона сто шестьдесят пять тысяч триста тридцать четыре");
+		put(429786218412L, "четыреста двадцать девять миллиардов семьсот восемьдесят шесть миллионов двести восемнадцать тысяч четыреста двенадцать");
+	}};
 
 	@Test
-	public void sixMasculineNominativeTest(){
-		NumberInWords numberInWords = new NumberInWords();
-		String six = numberInWords.sumProp(6L, INumberInWords.MASCULINE, INumberInWords.NOMINATIVE);
-		Assert.assertEquals("шесть", six);
+	public void MasculineNominativeTest(){
+		normativeMasculineNumberValues.entrySet().forEach((entry)->
+				testNumberToWord(entry, INumberInWords.MASCULINE, INumberInWords.NOMINATIVE));
 	}
 
-	@Test
-	public void twelveMasculineNominativeTest(){
+	private void testNumberToWord(Map.Entry<Long, String> entry, String sGender, String sCase){
 		NumberInWords numberInWords = new NumberInWords();
-		String twelve = numberInWords.sumProp(12L, INumberInWords.MASCULINE, INumberInWords.NOMINATIVE);
-		Assert.assertEquals("двенадцать", twelve);
-	}
-
-	@Test
-	public void twoHundredAndSeventeenMasculineNominativeTest(){
-		NumberInWords numberInWords = new NumberInWords();
-		String twoHundredAndSeventeen = numberInWords.sumProp(217L, INumberInWords.MASCULINE, INumberInWords.NOMINATIVE);
-		Assert.assertEquals("двести семнадцать", twoHundredAndSeventeen);
+		String sNumber = numberInWords.sumProp(entry.getKey(), sGender, sCase);
+		Assert.assertEquals(entry.getValue(), sNumber);
 	}
 }

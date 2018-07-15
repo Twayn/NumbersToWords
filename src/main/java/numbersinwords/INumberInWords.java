@@ -1,3 +1,5 @@
+package numbersinwords;
+
 public interface INumberInWords {
 	long MAX_INPUT_VALUE = 999_999_999_999L;
 	long MIN_INPUT_VALUE = 0L;
