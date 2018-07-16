@@ -45,15 +45,15 @@ class NumberToWordsTransformer {
 
 	String transform() {
 		if (nSum == 0L) return FOR_ZERO.get(sCase);
-		long sum = nSum;
+		var sum = nSum;
 
 		/*Найти количество групп по три разряда*/
-		int length = String.format("%,d", sum).replaceAll("[^,]", "").length();
-		long divisor = (long)Math.pow(oneThousand, length);
+		var length = String.format("%,d", sum).replaceAll("[^,]", "").length();
+		var divisor = (long)Math.pow(oneThousand, length);
 
-		StringBuilder result = new StringBuilder();
+		var result = new StringBuilder();
 		for (; length >= 0; length--) {
-			int mny = (int) (sum / divisor);
+			var mny = (int) (sum / divisor);
 			sum = sum % divisor;
 
 			result.append(calcDigit(mny, length));
@@ -76,8 +76,8 @@ class NumberToWordsTransformer {
 	}
 
 	private String calcDigit(int res, int length){
-		final int thousandsMark = 1;
-		StringBuilder result = new StringBuilder();
+		final var thousandsMark = 1;
+		var result = new StringBuilder();
 
 		if (res == 0) {
 			if (length == 0) {
@@ -103,7 +103,7 @@ class NumberToWordsTransformer {
 		return result.toString();
 	}
 
-	private String calcPower(int res, int length){
+	private String calcPower(final int res, final int length){
 		switch (res) {
 			case 1:
 				return POWER[length][singularIndex];

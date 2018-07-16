@@ -128,8 +128,8 @@ public class NumberInWordsTest {
 	}
 
 	private void testNumberToWord(Map.Entry<Long, String> entry, String sGender, String sCase){
-		NumberInWords numberInWords = new NumberInWords();
-		String sNumber = numberInWords.sumProp(entry.getKey(), sGender, sCase);
+		var numberInWords = new NumberInWords();
+		var sNumber = numberInWords.sumProp(entry.getKey(), sGender, sCase);
 		Assert.assertEquals(entry.getValue(), sNumber);
 	}
 }

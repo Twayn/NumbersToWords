@@ -1,6 +1,5 @@
 package numbersinwords;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class NumberInWords implements INumberInWords {
@@ -14,22 +13,22 @@ public class NumberInWords implements INumberInWords {
 	private final static String VALID_CASES_MSG = "Допустимые значения падежа: ";
 	private final static String DOT_WITH_WHITESPASE = ". ";
 
-	private final static List<String> VALID_GENDERS = Arrays.asList(
+	private final static List<String> VALID_GENDERS = List.of(
 			MASCULINE, FEMININE, NEUTER
 	);
-	private final static List<String> VALID_CASES = Arrays.asList(
+	private final static List<String> VALID_CASES = List.of(
 			NOMINATIVE, GENITIVE, DATIVE, ACCUSATIVE, INSTRUMENTAL, PREPOSITIONAL
 	);
 
-	public String sumProp(long nSum, String sGender, String sCase) {
+	public String sumProp(final long nSum, final String sGender, final String sCase) {
 		checkNumberValue(nSum);
 		checkGenderValue(sGender);
 		checkCaseValue(sCase);
-		NumberToWordsTransformer transformer = new NumberToWordsTransformer(nSum, sGender, sCase);
+		var transformer = new NumberToWordsTransformer(nSum, sGender, sCase);
 		return transformer.transform();
 	}
 
-	private void checkNumberValue(long nSum){
+	private void checkNumberValue(final long nSum){
 		if (nSum > MAX_INPUT_VALUE){
 			throw new IllegalArgumentException(TOO_BIG_ERR_MSG + MAX_INPUT_VALUE);
 		}
@@ -39,7 +38,7 @@ public class NumberInWords implements INumberInWords {
 		}
 	}
 
-	private void checkGenderValue(String sGender){
+	private void checkGenderValue(final String sGender){
 		if (sGender == null){
 			throw new NullPointerException(GENDER_NOT_SPECIFIED);
 		}
@@ -49,7 +48,7 @@ public class NumberInWords implements INumberInWords {
 		}
 	}
 
-	private void checkCaseValue(String sCase){
+	private void checkCaseValue(final String sCase){
 		if (sCase == null){
 			throw new NullPointerException(CASE_NOT_SPECIFIED);
 		}
