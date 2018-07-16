@@ -1,66 +1,104 @@
 package numbersinwords;
 
-import static java.util.Locale.ENGLISH;
 import static numbersinwords.Constants.*;
-
-import java.text.NumberFormat;
+import static numbersinwords.INumberInWords.*;
 
 public class NumberToWordsTransformer {
 	private final long nSum;
-	private final String sGender;
 	private final String sCase;
+	private final String[][] DIGIT;
+	private final String[][] POWER;
 
-	private final static String comma = ",";
 	private final static long oneThousand = 1000L;
-
 
 	NumberToWordsTransformer(long nSum, String sGender, String sCase) {
 		this.nSum = nSum;
-		this.sGender = sGender;
 		this.sCase = sCase;
+		switch (sCase){
+			case NOMINATIVE:
+				this.DIGIT = Constants.DIGIT_NOMINATIVE;
+				this.POWER = Constants.POWER_NOMINATIVE;
+				break;
+			case GENITIVE:
+				this.DIGIT = Constants.DIGIT_GENITIVE;
+				this.POWER = Constants.POWER_GENITIVE;
+				break;
+			case DATIVE:
+				this.DIGIT = Constants.DIGIT_DATIVE;
+				this.POWER = Constants.POWER_DATIVE;
+				break;
+			case ACCUSATIVE:
+				this.DIGIT = Constants.DIGIT_ACCUSATIVE;
+				this.POWER = Constants.POWER_ACCUSATIVE;
+				break;
+			case INSTRUMENTAL:
+				this.DIGIT = Constants.DIGIT_INSTRUMENTAL;
+				this.POWER = Constants.POWER_INSTRUMENTAL;
+				break;
+			case PREPOSITIONAL:
+				this.DIGIT = Constants.DIGIT_PREPOSITIONAL;
+				this.POWER = Constants.POWER_PREPOSITIONAL;
+				break;
+			default: throw new RuntimeException("Неподдерживаемый падеж: " + sCase);
+		}
 	}
 
-	public String transform(){
-		if (nSum == 0L) return "ноль ";
+	public String transform() {
+		if (nSum == 0L) return FOR_ZERO.get(sCase);
 		long sum = nSum;
 
-		int length = NumberFormat.getInstance(ENGLISH).format(sum).split(comma).length - 1;
+		/*Найти количество групп по три разряда*/
+		int length = String.format("%,d", sum).replaceAll("[^,]", "").length();
 		long divisor = (long)Math.pow(oneThousand, length);
 
 		StringBuilder result = new StringBuilder();
 		for (; length >= 0; length--) {
-			int res = (int) (sum / divisor);
+			int mny = (int) (sum / divisor);
 			sum = sum % divisor;
 
-			result.append(calcDigit(res, length));
-			result.append(calcPower(res, length));
+			result.append(calcDigit(mny, length));
 
 			divisor = divisor / oneThousand;
 		}
+
 		result.deleteCharAt(result.length() - 1);//Удаляется последний пробел
-		return result.toString();
+
+		return addPrefixForInstrumental(result.toString());
+	}
+
+	private String addPrefixForInstrumental(String result){
+		if (sCase.equals(PREPOSITIONAL)){
+			if (result.startsWith("о")){
+				return "об " + result;
+			} else return "о " + result;
+		}
+		return result;
 	}
 
 	private String calcDigit(int res, int length){
 		final int thousandsMark = 1;
-
 		StringBuilder result = new StringBuilder();
-		if (res == 0 && length == 0) {
-			result.append(Constants.POWER[length][singularIndex]);
+
+		if (res == 0) {
+			if (length == 0) {
+				result.append(POWER[length][singularIndex]);
+			}
 		} else {
 			if (res >= 100) {
-				result.append(Constants.DIGIT[res / 100][hundredsIndex]);
+				result.append(DIGIT[res / 100][hundredsIndex]);
 				res %= 100;
 			}
 			if (res >= 20) {
-				result.append(Constants.DIGIT[res / 10][decadesIndex]);
+				result.append(DIGIT[res / 10][decadesIndex]);
 				res %= 10;
 			}
 			if (res >= 10) {
-				result.append(Constants.DIGIT[res - 10][from11to20Index]);
+				result.append(DIGIT[res - 10][from11to20Index]);
 			} else if (res >= 1){
-				result.append(Constants.DIGIT[res][length == thousandsMark ? forThousandsIndex : forOthersIndex]);
+				result.append(DIGIT[res][length == thousandsMark ? forThousandsIndex : forOthersIndex]);
 			}
+
+			result.append(calcPower(res, length));
 		}
 		return result.toString();
 	}
@@ -68,13 +106,13 @@ public class NumberToWordsTransformer {
 	private String calcPower(int res, int length){
 		switch (res) {
 			case 1:
-				return Constants.POWER[length][singularIndex];
+				return POWER[length][singularIndex];
 			case 2:
 			case 3:
 			case 4:
-				return Constants.POWER[length][from2to4Index];
+				return POWER[length][from2to4Index];
 			default:
-				return Constants.POWER[length][from5to9Index];
+				return POWER[length][from5to9Index];
 		}
 	}
 }
