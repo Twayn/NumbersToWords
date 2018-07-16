@@ -3,7 +3,7 @@ package numbersinwords;
 import static numbersinwords.Constants.*;
 import static numbersinwords.INumberInWords.*;
 
-public class NumberToWordsTransformer {
+class NumberToWordsTransformer {
 	private final long nSum;
 	private final String sCase;
 	private final String[][] DIGIT;
@@ -43,7 +43,7 @@ public class NumberToWordsTransformer {
 		}
 	}
 
-	public String transform() {
+	String transform() {
 		if (nSum == 0L) return FOR_ZERO.get(sCase);
 		long sum = nSum;
 

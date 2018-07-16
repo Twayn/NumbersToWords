@@ -9,7 +9,7 @@ import numbersinwords.NumberInWords;
 
 public class NumberInWordsTest {
 
-	private Map<Long, String> masculineNormativeValues = new LinkedHashMap<Long, String>(){{
+	private Map<Long, String> masculineNormativeValues = new LinkedHashMap<>() {{
 		put(0L, "ноль");
 		put(6L, "шесть");
 		put(12L, "двенадцать");
@@ -22,7 +22,7 @@ public class NumberInWordsTest {
 		put(429_786_218_412L, "четыреста двадцать девять миллиардов семьсот восемьдесят шесть миллионов двести восемнадцать тысяч четыреста двенадцать");
 	}};
 
-	private Map<Long, String> masculineGenetiveValues = new LinkedHashMap<Long, String>(){{
+	private Map<Long, String> masculineGenetiveValues = new LinkedHashMap<>() {{
 		put(0L, "ноля");
 		put(1L, "одного");
 		put(6L, "шести");
@@ -37,7 +37,7 @@ public class NumberInWordsTest {
 		put(999_999_999_999L, "девятисот девяноста девяти миллиардов девятисот девяноста девяти миллионов девятисот девяноста девяти тысяч девятисот девяноста девяти");
 	}};
 
-	private Map<Long, String> masculineDativeValues = new LinkedHashMap<Long, String>(){{
+	private Map<Long, String> masculineDativeValues = new LinkedHashMap<>() {{
 		put(0L, "нолю");
 		put(9L, "девяти");
 		put(13L, "тринадцати");
@@ -50,7 +50,7 @@ public class NumberInWordsTest {
 		put(17_551_004_010L, "семнадцати миллиардам пятистам пятидесяти одному миллиону четырем тысячам десяти");
 	}};
 
-	private Map<Long, String> masculineAccusativeValues = new LinkedHashMap<Long, String>(){{
+	private Map<Long, String> masculineAccusativeValues = new LinkedHashMap<>() {{
 		put(1L, "один");
 		put(14L, "четырнадцать");
 		put(111L, "сто одиннадцать");
@@ -62,7 +62,7 @@ public class NumberInWordsTest {
 		put(800_400_001_030L, "восемьсот миллиардов четыреста миллионов одну тысячу тридцать");
 	}};
 
-	private Map<Long, String> masculineInstrumentalValues = new LinkedHashMap<Long, String>(){{
+	private Map<Long, String> masculineInstrumentalValues = new LinkedHashMap<>() {{
 		put(0L, "нолем");
 		put(9L, "девятью");
 		put(13L, "тринадцатью");
@@ -78,7 +78,7 @@ public class NumberInWordsTest {
 		put(112_101_454_158L, "ста двенадцатью миллиардами ста одним миллионом четырьмястами пятьюдесятью четырьмя тысячами ста пятьюдесятью восьмью");
 	}};
 
-	private Map<Long, String> masculinePrepositionalValues = new LinkedHashMap<Long, String>(){{
+	private Map<Long, String> masculinePrepositionalValues = new LinkedHashMap<>() {{
 		put(0L, "о ноле");
 		put(1L, "об одном");
 		put(9L, "о девяти");

@@ -7,7 +7,6 @@ import static numbersinwords.INumberInWords.INSTRUMENTAL;
 import static numbersinwords.INumberInWords.NOMINATIVE;
 import static numbersinwords.INumberInWords.PREPOSITIONAL;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public interface Constants {
@@ -21,14 +20,14 @@ public interface Constants {
 	int decadesIndex = 3;
 	int hundredsIndex = 4;
 
-	Map<String, String> FOR_ZERO = new HashMap<String, String>(){{
-		put(NOMINATIVE, "ноль");
-		put(GENITIVE, "ноля");
-		put(DATIVE, "нолю");
-		put(ACCUSATIVE, "ноль");
-		put(INSTRUMENTAL, "нолем");
-		put(PREPOSITIONAL, "о ноле");
-	}};
+	Map<String, String> FOR_ZERO = Map.of(
+			NOMINATIVE, "ноль",
+			GENITIVE, "ноля",
+			DATIVE, "нолю",
+			ACCUSATIVE, "ноль",
+			INSTRUMENTAL, "нолем",
+			PREPOSITIONAL, "о ноле");
+
 
 	String[][] POWER_NOMINATIVE = new String[][]{
 			{""            , ""             , ""              },
