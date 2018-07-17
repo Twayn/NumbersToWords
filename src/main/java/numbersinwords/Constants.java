@@ -7,12 +7,13 @@ import static numbersinwords.INumberInWords.INSTRUMENTAL;
 import static numbersinwords.INumberInWords.NOMINATIVE;
 import static numbersinwords.INumberInWords.PREPOSITIONAL;
 
+import java.util.List;
 import java.util.Map;
 
 public interface Constants {
 	int singularIndex = 0;
 	int from2to4Index = 1;
-	int from5to9Index = 2;
+	int othersIndex = 2;
 
 	int forOthersIndex = 0;
 	int forThousandsIndex = 1;
@@ -21,13 +22,43 @@ public interface Constants {
 	int hundredsIndex = 4;
 
 	Map<String, String> FOR_ZERO = Map.of(
-			NOMINATIVE, "ноль",
-			GENITIVE, "ноля",
-			DATIVE, "нолю",
-			ACCUSATIVE, "ноль",
-			INSTRUMENTAL, "нолем",
-			PREPOSITIONAL, "о ноле");
+		NOMINATIVE, "ноль",
+		GENITIVE, "ноля",
+		DATIVE, "нолю",
+		ACCUSATIVE, "ноль",
+		INSTRUMENTAL, "нолем",
+		PREPOSITIONAL, "о ноле"
+	);
 
+	Map<String, String> F_NOMINATIVE = Map.of(
+		"один", "одна", "два", "две"
+	);
+
+	Map<String, String> F_GENITIVE = Map.of(
+		"одного", "одной", "двух", "двух"
+	);
+
+	Map<String, String> F_DATIVE = Map.of(
+		"одному", "одной", "двум", "двум"
+	);
+
+	Map<String, String> F_ACCUSATIVE = Map.of(
+		"один", "одну", "два", "две"
+	);
+
+	Map<String, String> F_INSTRUMENTAL = Map.of(
+		"одним", "одной", "двумя", "двумя"
+	);
+
+	Map<String, String> F_PREPOSITIONAL = Map.of(
+		"одном", "одной", "двух", "двух"
+	);
+
+	Map<String, String> N_NOMINATIVE_AND_ACCUSATIVE = Map.of(
+		"один", "одно", "два", "два"
+	);
+
+	List<String> IS_NEED_TO_DECLINE = List.of("один", "два", "одного", "одному", "одним", "одном");
 
 	String[][] POWER_NOMINATIVE = new String[][]{
 			{""            , ""             , ""              },
@@ -130,7 +161,7 @@ public interface Constants {
 			{"пятью "    , "пятью "    , "пятнадцатью "   , "пятьюдесятью "   , "пятьюстами "    },
 			{"шестью "   , "шестью "   , "шестнадцатью "  , "шестьюдесятью "  , "шестьюстами "   },
 			{"семью "    , "семью "    , "семнадцатью "   , "семьюдесятью "   , "семьюстами "    },
-			{"восьмью "  , "восемтю "  , "восемнадцатью " , "восьмьюдесятью " , "восемьюстами "  },
+			{"восьмью "  , "восемью "  , "восемнадцатью " , "восьмьюдесятью " , "восемьюстами "  },
 			{"девятью "  , "девятью "  , "девятнадцатью " , "девяноста "      , "девятьюстами "  },
 	};
 

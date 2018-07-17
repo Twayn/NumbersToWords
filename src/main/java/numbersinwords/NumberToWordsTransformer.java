@@ -1,71 +1,102 @@
 package numbersinwords;
 
 import static numbersinwords.Constants.*;
-import static numbersinwords.INumberInWords.*;
+import static numbersinwords.INumberInWords.ACCUSATIVE;
+import static numbersinwords.INumberInWords.DATIVE;
+import static numbersinwords.INumberInWords.FEMININE;
+import static numbersinwords.INumberInWords.GENITIVE;
+import static numbersinwords.INumberInWords.INSTRUMENTAL;
+import static numbersinwords.INumberInWords.NEUTER;
+import static numbersinwords.INumberInWords.NOMINATIVE;
+import static numbersinwords.INumberInWords.PREPOSITIONAL;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**Отвечает за преобразование числа в его словесное представление по заданным правилам*/
 class NumberToWordsTransformer {
 	private final long nSum;
 	private final String sCase;
-	private final String[][] DIGIT;
-	private final String[][] POWER;
-
-	private final static long oneThousand = 1000L;
+	private final String[][] digit;
+	private final String[][] power;
+	private final Map<String, String> declensionByGenders;
 
 	NumberToWordsTransformer(long nSum, String sGender, String sCase) {
 		this.nSum = nSum;
 		this.sCase = sCase;
 		switch (sCase){
 			case NOMINATIVE:
-				this.DIGIT = Constants.DIGIT_NOMINATIVE;
-				this.POWER = Constants.POWER_NOMINATIVE;
+				this.digit = Constants.DIGIT_NOMINATIVE;
+				this.power = Constants.POWER_NOMINATIVE;
 				break;
 			case GENITIVE:
-				this.DIGIT = Constants.DIGIT_GENITIVE;
-				this.POWER = Constants.POWER_GENITIVE;
+				this.digit = Constants.DIGIT_GENITIVE;
+				this.power = Constants.POWER_GENITIVE;
 				break;
 			case DATIVE:
-				this.DIGIT = Constants.DIGIT_DATIVE;
-				this.POWER = Constants.POWER_DATIVE;
+				this.digit = Constants.DIGIT_DATIVE;
+				this.power = Constants.POWER_DATIVE;
 				break;
 			case ACCUSATIVE:
-				this.DIGIT = Constants.DIGIT_ACCUSATIVE;
-				this.POWER = Constants.POWER_ACCUSATIVE;
+				this.digit = Constants.DIGIT_ACCUSATIVE;
+				this.power = Constants.POWER_ACCUSATIVE;
 				break;
 			case INSTRUMENTAL:
-				this.DIGIT = Constants.DIGIT_INSTRUMENTAL;
-				this.POWER = Constants.POWER_INSTRUMENTAL;
+				this.digit = Constants.DIGIT_INSTRUMENTAL;
+				this.power = Constants.POWER_INSTRUMENTAL;
 				break;
 			case PREPOSITIONAL:
-				this.DIGIT = Constants.DIGIT_PREPOSITIONAL;
-				this.POWER = Constants.POWER_PREPOSITIONAL;
+				this.digit = Constants.DIGIT_PREPOSITIONAL;
+				this.power = Constants.POWER_PREPOSITIONAL;
 				break;
 			default: throw new RuntimeException("Неподдерживаемый падеж: " + sCase);
 		}
+		declensionByGenders = getDeclintionByGenders(sGender, sCase);
 	}
 
+	/*Если требуется, загружает карту с необходимыми склонениями*/
+	private Map<String, String> getDeclintionByGenders(String sGender, String sCase){
+		if (sGender.equals(FEMININE)) {
+			if (sCase.equals(NOMINATIVE)) return F_NOMINATIVE;
+			if (sCase.equals(GENITIVE)) return F_GENITIVE;
+			if (sCase.equals(DATIVE)) return F_DATIVE;
+			if (sCase.equals(ACCUSATIVE)) return F_ACCUSATIVE;
+			if (sCase.equals(INSTRUMENTAL)) return F_INSTRUMENTAL;
+			if (sCase.equals(PREPOSITIONAL)) return F_PREPOSITIONAL;
+		} else if (sGender.equals(NEUTER)){
+			if (sCase.equals(NOMINATIVE) || sCase.equals(ACCUSATIVE)) return N_NOMINATIVE_AND_ACCUSATIVE;
+		}
+		return null;
+	}
+
+	/**
+	 * Считает словесное представление числа long.
+	 * @return словесное представление {@link NumberToWordsTransformer#nSum}
+	 */
 	String transform() {
 		if (nSum == 0L) return FOR_ZERO.get(sCase);
-		var sum = nSum;
-
-		/*Найти количество групп по три разряда*/
-		var length = String.format("%,d", sum).replaceAll("[^,]", "").length();
-		var divisor = (long)Math.pow(oneThousand, length);
 
 		var result = new StringBuilder();
-		for (; length >= 0; length--) {
-			var mny = (int) (sum / divisor);
-			sum = sum % divisor;
 
-			result.append(calcDigit(mny, length));
-
-			divisor = divisor / oneThousand;
+		/*Разделить число на группы по 3 разряда и обработать каждый*/
+		var triplets = Arrays.asList(String.format("%,d", nSum).split(","));
+		var size = triplets.size();
+		for (var trio : triplets) {
+			result.append(calcVerbalFrom(Integer.valueOf(trio), --size));
 		}
 
-		result.deleteCharAt(result.length() - 1);//Удаляется последний пробел
+		/*Удалить последний пробел*/
+		result.deleteCharAt(result.length() - 1);
 
-		return addPrefixForInstrumental(result.toString());
+		return changeFormForGenders(addPrefixForInstrumental(result.toString()));
 	}
 
+	/**
+	 * Если падеж предложный к входной строке добавляется соответсвующий префикс.
+	 * @param result строка для добавление префикса.
+	 * @return строка с префиксом или нет в зависимости от падежа.
+	 */
 	private String addPrefixForInstrumental(String result){
 		if (sCase.equals(PREPOSITIONAL)){
 			if (result.startsWith("о")){
@@ -75,44 +106,79 @@ class NumberToWordsTransformer {
 		return result;
 	}
 
-	private String calcDigit(int res, int length){
-		final var thousandsMark = 1;
-		var result = new StringBuilder();
+	/**
+	 * Склонение числительных по родам.
+	 * Если строка оканчивается на число один или два в разных формах
+	 * и запрошено сконение по родам то последнее слово заменяется на необходимое.
+	 * @param result входная строка для склонения.
+	 * @return строка преобразованная в зависимости от необходимости склонения.
+	 */
+	private String changeFormForGenders(String result){
+		if (declensionByGenders != null){
+			String[] split = result.split(" ");
+			String lastWord = split[split.length - 1];
 
-		if (res == 0) {
-			if (length == 0) {
-				result.append(POWER[length][singularIndex]);
-			}
-		} else {
-			if (res >= 100) {
-				result.append(DIGIT[res / 100][hundredsIndex]);
-				res %= 100;
-			}
-			if (res >= 20) {
-				result.append(DIGIT[res / 10][decadesIndex]);
-				res %= 10;
-			}
-			if (res >= 10) {
-				result.append(DIGIT[res - 10][from11to20Index]);
-			} else if (res >= 1){
-				result.append(DIGIT[res][length == thousandsMark ? forThousandsIndex : forOthersIndex]);
+			if (IS_NEED_TO_DECLINE.contains(lastWord)){
+				split[split.length - 1] = declensionByGenders.get(lastWord);
 			}
 
-			result.append(calcPower(res, length));
+			return Arrays.stream(split).collect(Collectors.joining(" "));
+		}
+		return result;
+	}
+
+	/**
+	 * Считает словесное представление числа со степенью в правильном падеже.
+	 * Пример: calcVerbalFrom(22, 1) для именительно падежа вернет "двадцать две тысячи".
+	 * @param trio число от 0 до 999
+	 * @param power степень (1 - тысячи, 2 - миллионы..)
+	 * @return словесная форма числа со степенью
+	 */
+	private String calcVerbalFrom(int trio, final int power){
+		final int thousands = 1;
+		StringBuilder result = new StringBuilder();
+
+		int ones = trio % 10;
+		int decades = trio/10 % 10;
+		int hundreds = trio/100 % 10;
+
+		int key = trio;//Используется для поиска по словарю степеней
+		if (trio > 0) {
+			if (hundreds > 0) { //Если первый разряд не 0 (100-999)
+				result.append(digit[hundreds][hundredsIndex]);
+				key %= 100;
+			}
+			if (decades > 1) { //Если второй разряд больше 1 (X20-X99)
+				result.append(digit[decades][decadesIndex]);
+				key %= 10;
+			}
+			if (decades == 1) { //Если второй разряд 1 (числа X10-X19)
+				result.append(digit[ones][from11to20Index]);
+			} else { //Если второй разряд 0 (числа X01-X09)
+				result.append(digit[ones][power == thousands ? forThousandsIndex : forOthersIndex]);
+			}
+
+			result.append(calcPower(key, power));
 		}
 		return result.toString();
 	}
 
-	private String calcPower(final int res, final int length){
-		switch (res) {
+	/**
+	 * Счтает словесное представление показателя степени в правильном падеже.
+	 * @param key ключ для поиска по словарю (1-19)
+	 * @param power степень (1 - тысячи, 2 - миллионы ...)
+	 * @return показатель степени в словесной форме.
+	 */
+	private String calcPower(final int key, final int power){
+		switch (key) {
 			case 1:
-				return POWER[length][singularIndex];
+				return this.power[power][singularIndex];
 			case 2:
 			case 3:
 			case 4:
-				return POWER[length][from2to4Index];
+				return this.power[power][from2to4Index];
 			default:
-				return POWER[length][from5to9Index];
+				return this.power[power][othersIndex];
 		}
 	}
 }
