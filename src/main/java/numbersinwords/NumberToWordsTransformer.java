@@ -20,7 +20,7 @@ class NumberToWordsTransformer {
 	private final String sCase;
 	private final String[][] digit;
 	private final String[][] power;
-	private final Map<String, String> declensionByGenders;
+	private final Map<String, String> declineByGenders;
 
 	NumberToWordsTransformer(long nSum, String sGender, String sCase) {
 		this.nSum = nSum;
@@ -52,18 +52,13 @@ class NumberToWordsTransformer {
 				break;
 			default: throw new RuntimeException("Неподдерживаемый падеж: " + sCase);
 		}
-		declensionByGenders = getDeclintionByGenders(sGender, sCase);
+		declineByGenders = getDeclineByGenders(sGender, sCase);
 	}
 
 	/*Если требуется, загружает карту с необходимыми склонениями*/
-	private Map<String, String> getDeclintionByGenders(String sGender, String sCase){
+	private Map<String, String> getDeclineByGenders(String sGender, String sCase){
 		if (sGender.equals(FEMININE)) {
-			if (sCase.equals(NOMINATIVE)) return F_NOMINATIVE;
-			if (sCase.equals(GENITIVE)) return F_GENITIVE;
-			if (sCase.equals(DATIVE)) return F_DATIVE;
-			if (sCase.equals(ACCUSATIVE)) return F_ACCUSATIVE;
-			if (sCase.equals(INSTRUMENTAL)) return F_INSTRUMENTAL;
-			if (sCase.equals(PREPOSITIONAL)) return F_PREPOSITIONAL;
+			return FOR_FEMININE.get(sCase);
 		} else if (sGender.equals(NEUTER)){
 			if (sCase.equals(NOMINATIVE) || sCase.equals(ACCUSATIVE)) return N_NOMINATIVE_AND_ACCUSATIVE;
 		}
@@ -97,7 +92,7 @@ class NumberToWordsTransformer {
 	 * @param result строка для добавление префикса.
 	 * @return строка с префиксом или нет в зависимости от падежа.
 	 */
-	private String addPrefixForInstrumental(String result){
+	private String addPrefixForInstrumental(final String result){
 		if (sCase.equals(PREPOSITIONAL)){
 			if (result.startsWith("о")){
 				return "об " + result;
@@ -113,13 +108,13 @@ class NumberToWordsTransformer {
 	 * @param result входная строка для склонения.
 	 * @return строка преобразованная в зависимости от необходимости склонения.
 	 */
-	private String changeFormForGenders(String result){
-		if (declensionByGenders != null){
+	private String changeFormForGenders(final String result){
+		if (declineByGenders != null){
 			String[] split = result.split(" ");
 			String lastWord = split[split.length - 1];
 
 			if (IS_NEED_TO_DECLINE.contains(lastWord)){
-				split[split.length - 1] = declensionByGenders.get(lastWord);
+				split[split.length - 1] = declineByGenders.get(lastWord);
 			}
 
 			return Arrays.stream(split).collect(Collectors.joining(" "));
@@ -130,19 +125,19 @@ class NumberToWordsTransformer {
 	/**
 	 * Считает словесное представление числа со степенью в правильном падеже.
 	 * Пример: calcVerbalFrom(22, 1) для именительно падежа вернет "двадцать две тысячи".
-	 * @param trio число от 0 до 999
-	 * @param power степень (1 - тысячи, 2 - миллионы..)
-	 * @return словесная форма числа со степенью
+	 * @param trio число от 0 до 999.
+	 * @param power степень (1 - тысячи, 2 - миллионы ...).
+	 * @return словесная форма числа со степенью.
 	 */
-	private String calcVerbalFrom(int trio, final int power){
-		final int thousands = 1;
-		StringBuilder result = new StringBuilder();
+	private String calcVerbalFrom(final int trio, final int power){
+		final var thousands = 1;
+		var result = new StringBuilder();
 
-		int ones = trio % 10;
-		int decades = trio/10 % 10;
-		int hundreds = trio/100 % 10;
+		var ones = trio % 10;
+		var decades = trio/10 % 10;
+		var hundreds = trio/100 % 10;
 
-		int key = trio;//Используется для поиска по словарю степеней
+		var key = trio;//Используется для поиска по словарю степеней
 		if (trio > 0) {
 			if (hundreds > 0) { //Если первый разряд не 0 (100-999)
 				result.append(digit[hundreds][hundredsIndex]);
