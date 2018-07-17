@@ -98,44 +98,40 @@ public class NumberInWordsNeuterTest {
 
 	@Test
 	public void neuterNominativeTest(){
-		for (Map.Entry<Long, String> entry : neuterNormativeValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.NOMINATIVE);
-		}
+		neuterNormativeValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.NOMINATIVE));
+
 	}
 
 	@Test
 	public void neuterGenetiveTest(){
-		for (Map.Entry<Long, String> entry : neuterGenetiveValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.GENITIVE);
-		}
+		neuterGenetiveValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.GENITIVE));
 	}
 
 	@Test
 	public void neuterDativeTest(){
-		for (Map.Entry<Long, String> entry : neuterDativeValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.DATIVE);
-		}
+		neuterDativeValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.DATIVE));
 	}
 
 	@Test
 	public void neuterAccusativeTest(){
-		for (Map.Entry<Long, String> entry : neuterAccusativeValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.ACCUSATIVE);
-		}
+		neuterAccusativeValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.ACCUSATIVE));
 	}
 
 	@Test
 	public void neuterInstrumentalTest(){
-		for (Map.Entry<Long, String> entry : neuterInstrumentalValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.INSTRUMENTAL);
-		}
+		neuterInstrumentalValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.INSTRUMENTAL));
 	}
 
 	@Test
 	public void neuterPrepositionalTest(){
-		for (Map.Entry<Long, String> entry : neuterPrepositionalValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.PREPOSITIONAL);
-		}
+		neuterPrepositionalValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.PREPOSITIONAL));
+
 	}
 
 	private void testNumberToWord(Map.Entry<Long, String> entry, String sCase){

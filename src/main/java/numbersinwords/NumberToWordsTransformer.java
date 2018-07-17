@@ -84,7 +84,7 @@ class NumberToWordsTransformer {
 		/*Удалить последний пробел*/
 		result.deleteCharAt(result.length() - 1);
 
-		return changeFormForGenders(addPrefixForInstrumental(result.toString()));
+		return declineByGenders(prefixForInstrumental(result.toString()));
 	}
 
 	/**
@@ -92,7 +92,7 @@ class NumberToWordsTransformer {
 	 * @param result строка для добавление префикса.
 	 * @return строка с префиксом или нет в зависимости от падежа.
 	 */
-	private String addPrefixForInstrumental(final String result){
+	private String prefixForInstrumental(final String result){
 		if (sCase.equals(PREPOSITIONAL)){
 			if (result.startsWith("о")){
 				return "об " + result;
@@ -108,7 +108,7 @@ class NumberToWordsTransformer {
 	 * @param result входная строка для склонения.
 	 * @return строка преобразованная в зависимости от необходимости склонения.
 	 */
-	private String changeFormForGenders(final String result){
+	private String declineByGenders(final String result){
 		if (declineByGenders != null){
 			String[] split = result.split(" ");
 			String lastWord = split[split.length - 1];

@@ -82,44 +82,38 @@ public class NumberInWordsFeminineTest {
 
 	@Test
 	public void feminineNominativeTest(){
-		for (Map.Entry<Long, String> entry : feminineNormativeValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.NOMINATIVE);
-		}
+		feminineNormativeValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.NOMINATIVE));
 	}
 
 	@Test
 	public void feminineGenetiveTest(){
-		for (Map.Entry<Long, String> entry : feminineGenetiveValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.GENITIVE);
-		}
+		feminineGenetiveValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.GENITIVE));
 	}
 
 	@Test
 	public void feminineDativeTest(){
-		for (Map.Entry<Long, String> entry : feminineDativeValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.DATIVE);
-		}
+		feminineDativeValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.DATIVE));
 	}
 
 	@Test
 	public void feminineAccusativeTest(){
-		for (Map.Entry<Long, String> entry : feminineAccusativeValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.ACCUSATIVE);
-		}
+		feminineAccusativeValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.ACCUSATIVE));
 	}
 
 	@Test
 	public void feminineInstrumentalTest(){
-		for (Map.Entry<Long, String> entry : feminineInstrumentalValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.INSTRUMENTAL);
-		}
+		feminineInstrumentalValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.INSTRUMENTAL));
 	}
 
 	@Test
 	public void femininePrepositionalTest(){
-		for (Map.Entry<Long, String> entry : femininePrepositionalValues.entrySet()) {
-			testNumberToWord(entry, INumberInWords.PREPOSITIONAL);
-		}
+		femininePrepositionalValues.entrySet().forEach((entry)->
+			testNumberToWord(entry, INumberInWords.PREPOSITIONAL));
 	}
 
 	private void testNumberToWord(Map.Entry<Long, String> entry, String sCase){
