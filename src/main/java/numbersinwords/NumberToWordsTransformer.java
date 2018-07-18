@@ -55,7 +55,12 @@ class NumberToWordsTransformer {
 		declineByGenders = getDeclineByGenders(sGender, sCase);
 	}
 
-	/*Если требуется, загружает карту с необходимыми склонениями*/
+	/**
+	 * Если требуется, загружает и возращает карту с необходимыми склонениями
+	 * @param sGender пол для поиска карты
+	 * @param sCase падеж для поиска карты
+	 * @return подходящую карту, если она нашлась, иначе null
+	 */
 	private Map<String, String> getDeclineByGenders(String sGender, String sCase){
 		if (sGender.equals(FEMININE)) {
 			return FOR_FEMININE.get(sCase);
@@ -66,7 +71,7 @@ class NumberToWordsTransformer {
 	}
 
 	/**
-	 * Считает словесное представление числа long.
+	 * Считает словесное представление числа {@link NumberToWordsTransformer#nSum}.
 	 * @return словесное представление {@link NumberToWordsTransformer#nSum}
 	 */
 	String transform() {
@@ -89,7 +94,7 @@ class NumberToWordsTransformer {
 
 	/**
 	 * Если падеж предложный к входной строке добавляется соответсвующий префикс.
-	 * @param result строка для добавление префикса.
+	 * @param result строка для добавления префикса.
 	 * @return строка с префиксом или нет в зависимости от падежа.
 	 */
 	private String prefixForInstrumental(final String result){
@@ -104,7 +109,7 @@ class NumberToWordsTransformer {
 	/**
 	 * Склонение числительных по родам.
 	 * Если строка оканчивается на число один или два в разных формах
-	 * и запрошено сконение по родам то последнее слово заменяется на необходимое.
+	 * и запрошено сконение по родам, то последнее слово заменяется на необходимое.
 	 * @param result входная строка для склонения.
 	 * @return строка преобразованная в зависимости от необходимости склонения.
 	 */
