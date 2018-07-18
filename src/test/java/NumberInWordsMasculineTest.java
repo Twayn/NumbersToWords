@@ -108,7 +108,7 @@ public class NumberInWordsMasculineTest {
 	}
 
 	@Test
-	public void masculineGenetiveTest(){
+	public void masculineGenitiveTest(){
 		 masculineGenetiveValues.entrySet().forEach((entry)->
 			testNumberToWord(entry, INumberInWords.GENITIVE));
 	}

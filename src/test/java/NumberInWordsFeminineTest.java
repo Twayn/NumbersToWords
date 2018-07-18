@@ -87,7 +87,7 @@ public class NumberInWordsFeminineTest {
 	}
 
 	@Test
-	public void feminineGenetiveTest(){
+	public void feminineGenitiveTest(){
 		feminineGenetiveValues.entrySet().forEach((entry)->
 			testNumberToWord(entry, INumberInWords.GENITIVE));
 	}

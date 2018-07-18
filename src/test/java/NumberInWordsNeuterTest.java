@@ -104,7 +104,7 @@ public class NumberInWordsNeuterTest {
 	}
 
 	@Test
-	public void neuterGenetiveTest(){
+	public void neuterGenitiveTest(){
 		neuterGenetiveValues.entrySet().forEach((entry)->
 			testNumberToWord(entry, INumberInWords.GENITIVE));
 	}
