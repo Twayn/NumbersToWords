@@ -56,10 +56,10 @@ class NumberToWordsTransformer {
 	}
 
 	/**
-	 * Если требуется, загружает и возращает карту с необходимыми склонениями
-	 * @param sGender пол для поиска карты
-	 * @param sCase падеж для поиска карты
-	 * @return подходящую карту, если она нашлась, иначе null
+	 * Если требуется, загружает и возращает карту с необходимыми склонениями.
+	 * @param sGender пол для поиска карты.
+	 * @param sCase падеж для поиска карты.
+	 * @return подходящую карту, если она нашлась, иначе null.
 	 */
 	private Map<String, String> getDeclineByGenders(String sGender, String sCase){
 		if (sGender.equals(FEMININE)) {
@@ -72,7 +72,7 @@ class NumberToWordsTransformer {
 
 	/**
 	 * Считает словесное представление числа {@link NumberToWordsTransformer#nSum}.
-	 * @return словесное представление {@link NumberToWordsTransformer#nSum}
+	 * @return словесное представление {@link NumberToWordsTransformer#nSum}.
 	 */
 	String transform() {
 		if (nSum == 0L) return FOR_ZERO.get(sCase);
@@ -165,8 +165,8 @@ class NumberToWordsTransformer {
 
 	/**
 	 * Счтает словесное представление показателя степени в правильном падеже.
-	 * @param key ключ для поиска по словарю (1-19)
-	 * @param power степень (1 - тысячи, 2 - миллионы ...)
+	 * @param key ключ для поиска по словарю (1-19).
+	 * @param power степень (1 - тысячи, 2 - миллионы ...).
 	 * @return показатель степени в словесной форме.
 	 */
 	private String calcPower(final int key, final int power){
