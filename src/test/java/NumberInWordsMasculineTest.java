@@ -25,7 +25,7 @@ public class NumberInWordsMasculineTest {
 		entry(429_786_218_412L, "четыреста двадцать девять миллиардов семьсот восемьдесят шесть миллионов двести восемнадцать тысяч четыреста двенадцать")
 	);
 
-	private Map<Long, String> masculineGenetiveValues = ofEntries(
+	private Map<Long, String> masculineGenitiveValues = ofEntries(
 		entry(0L, "ноля"),
 		entry(1L, "одного"),
 		entry(6L, "шести"),
@@ -109,7 +109,7 @@ public class NumberInWordsMasculineTest {
 
 	@Test
 	public void masculineGenitiveTest(){
-		 masculineGenetiveValues.entrySet().forEach((entry)->
+		 masculineGenitiveValues.entrySet().forEach((entry)->
 			testNumberToWord(entry, INumberInWords.GENITIVE));
 	}
 

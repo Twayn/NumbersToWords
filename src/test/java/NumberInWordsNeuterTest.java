@@ -25,7 +25,7 @@ public class NumberInWordsNeuterTest {
 		entry(429_786_218_412L, "четыреста двадцать девять миллиардов семьсот восемьдесят шесть миллионов двести восемнадцать тысяч четыреста двенадцать")
 	);
 
-	private Map<Long, String> neuterGenetiveValues = ofEntries(
+	private Map<Long, String> neuterGenitiveValues = ofEntries(
 		entry(0L, "ноля"),
 		entry(1L, "одного"),
 		entry(6L, "шести"),
@@ -105,7 +105,7 @@ public class NumberInWordsNeuterTest {
 
 	@Test
 	public void neuterGenitiveTest(){
-		neuterGenetiveValues.entrySet().forEach((entry)->
+		neuterGenitiveValues.entrySet().forEach((entry)->
 			testNumberToWord(entry, INumberInWords.GENITIVE));
 	}
 

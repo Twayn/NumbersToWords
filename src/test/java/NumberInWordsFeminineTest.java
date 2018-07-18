@@ -21,7 +21,7 @@ public class NumberInWordsFeminineTest {
 		entry(3_165_334L, "три миллиона сто шестьдесят пять тысяч триста тридцать четыре")
 	);
 
-	private Map<Long, String> feminineGenetiveValues = ofEntries(
+	private Map<Long, String> feminineGenitiveValues = ofEntries(
 		entry(1L, "одной"),
 		entry(2L, "двух"),
 		entry(12L, "двенадцати"),
@@ -88,7 +88,7 @@ public class NumberInWordsFeminineTest {
 
 	@Test
 	public void feminineGenitiveTest(){
-		feminineGenetiveValues.entrySet().forEach((entry)->
+		feminineGenitiveValues.entrySet().forEach((entry)->
 			testNumberToWord(entry, INumberInWords.GENITIVE));
 	}
 
