@@ -79,7 +79,7 @@ class NumberToWordsTransformer {
 
 		var result = new StringBuilder();
 
-		/*Разделить число на группы по 3 разряда и обработать каждый*/
+		/*Разделить число на группы по 3 разряда и обработать каждую*/
 		var triplets = Arrays.asList(String.format("%,d", nSum).split(","));
 		var size = triplets.size();
 		for (var trio : triplets) {
@@ -94,28 +94,28 @@ class NumberToWordsTransformer {
 
 	/**
 	 * Если падеж предложный к входной строке добавляется соответсвующий префикс.
-	 * @param result строка для добавления префикса.
+	 * @param source строка для добавления префикса.
 	 * @return строка с префиксом или нет в зависимости от падежа.
 	 */
-	private String prefixForInstrumental(final String result){
+	private String prefixForInstrumental(final String source){
 		if (sCase.equals(PREPOSITIONAL)){
-			if (result.startsWith("о")){
-				return "об " + result;
-			} else return "о " + result;
+			if (source.startsWith("о")){
+				return "об " + source;
+			} else return "о " + source;
 		}
-		return result;
+		return source;
 	}
 
 	/**
 	 * Склонение числительных по родам.
 	 * Если строка оканчивается на число один или два в разных формах
 	 * и запрошено сконение по родам, то последнее слово заменяется на необходимое.
-	 * @param result входная строка для склонения.
+	 * @param source входная строка для склонения.
 	 * @return строка преобразованная в зависимости от необходимости склонения.
 	 */
-	private String declineByGenders(final String result){
+	private String declineByGenders(final String source){
 		if (declineByGenders != null){
-			String[] split = result.split(" ");
+			String[] split = source.split(" ");
 			String lastWord = split[split.length - 1];
 
 			if (IS_NEED_TO_DECLINE.contains(lastWord)){
@@ -124,7 +124,7 @@ class NumberToWordsTransformer {
 
 			return Arrays.stream(split).collect(Collectors.joining(" "));
 		}
-		return result;
+		return source;
 	}
 
 	/**
